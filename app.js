@@ -2,20 +2,13 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload')
 var logger = require('morgan');
 
 //Conection to DB
-
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-mongoose.set('useNewUrlParser', true);
-mongoose.connect('mongodb+srv://admin:admin@cluster0-klg9b.mongodb.net/gallery');
-mongoose.connection.once('open',()=>{
-  console.log("Conected");
-})
+var mongoose=require('./conection');
 require('./models/Photo');
 var indexRouter = require('./routes/index');
-var galleryRouter= require('./routes/gallery');
 var cors=require('cors');
 var app = express();
 
@@ -24,9 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CORS
@@ -34,7 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/gallery', galleryRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
