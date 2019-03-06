@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Gallery' });
 });
 
-router.get('/upload', function(req, res, next) {
-    res.render('index', { title: 'Upload Image' });
+router.post('/upload', function(req, res, next) {
+    console.log("Recibido");
+    res.end();
   });
   
 

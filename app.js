@@ -4,10 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var galleryRouter= require('./routes/gallery');
+//Conection to DB
 
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.set('useNewUrlParser', true);
+mongoose.connect('mongodb+srv://admin:admin@cluster0-klg9b.mongodb.net/gallery');
+mongoose.connection.once('open',()=>{
+  console.log("Conected");
+})
+require('./models/Photo');
+var indexRouter = require('./routes/index');
+var galleryRouter= require('./routes/gallery');
+var cors=require('cors');
 var app = express();
 
 // view engine setup
@@ -20,8 +29,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//CORS
+
+app.use(cors());
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/gallery', galleryRouter);
 
 // catch 404 and forward to error handler
