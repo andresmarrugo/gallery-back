@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
     console.log("Phothos: ",photos);
     if(err) throw err;
     //res.render('index', { title: 'Photo Gallery', msg:req.query.msg, photolist : photos });
-    res.jsonp(photos);
+    res.json({photoList: photos});
 });
 
 });

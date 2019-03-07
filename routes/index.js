@@ -24,10 +24,10 @@ router.post('/upload', function(req, res){
           /**
            * Create new record in mongoDB
            */
-          var fullPath = "images/"+req.file.filename;
+          var fullPath = "/images/"+req.file.filename;
           var document = {
-            src:     fullPath, 
-            caption:   req.body.description,
+            path:     fullPath, 
+            caption:   req.file.caption,
             date:  new Date()
           };
 
